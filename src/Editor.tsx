@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import CSS from 'csstype';
+import { isAbsolute } from 'path';
 interface EditorProps {
   handleInput: (event: React.SyntheticEvent) => void;
+  handleClear: () => void;
   text: string;
   height: number;
   headerHeight: string;
@@ -46,12 +48,29 @@ const Editor: React.SFC<EditorProps> = (props) => {
 
     }
   }
+  const clearStyle: CSS.Properties = {
+    position: 'fixed',
+    width: `calc(100% - 40px)`,
+    height: props.headerHeight,
+    top: `20px` ,
+    right: `${ padding }px`,
+    display: 'flex',
+    justifyContent: 'flex-end',
+alignItems: 'center',
+    color: '#efefef55',
+    boxSizing: 'border-box',
+    marginRight: '10px',
+    cursor: 'pointer'
+  }
 
   return (
     <div style={ getContainerStyle() }>
-      <div style={ headerStyle }>Markup Editor:</div>
+      <div style={ headerStyle }>
+        <div>Markup Editor:</div>
+        <div style={clearStyle} onClick={props.handleClear}>clear</div>
+      </div>
 
-      <textarea style={ getTextStyle() } id="editor" defaultValue={ props.text } onInput={ props.handleInput }></textarea>
+      <textarea style={ getTextStyle() } id="editor" value={ props.text } onInput={ props.handleInput }></textarea>
     </div>
   );
 }

@@ -10,8 +10,6 @@ import CSS from 'csstype';
 interface AppState {
   text: string;
   resizing: boolean,
-  // width: number,
-  // height: number,
   editorHeight: number,
   previewerHeight: number
 }
@@ -24,8 +22,6 @@ class App extends React.Component<{}, AppState> {
   state: AppState = {
     text: defaultText,
     resizing: false,
-    // width: window.innerWidth,
-    // height: window.innerHeight,
     editorHeight: (window.innerHeight) / 2 - this.margin,
     previewerHeight: (window.innerHeight) / 2 - this.margin,
   }
@@ -34,6 +30,10 @@ class App extends React.Component<{}, AppState> {
   handleInput = (event: React.SyntheticEvent) => {
     const value = (event.target as HTMLInputElement).value;
     this.setState({ text: value });
+  }
+
+  handleClear = () => {
+    this.setState({text: ''});
   }
 
   beginResize = (event: React.SyntheticEvent) => {
@@ -61,19 +61,7 @@ class App extends React.Component<{}, AppState> {
       })
   }
   }
-  // updateDimensions = () => {
-  //   this.setState({ width: window.innerWidth, height: window.innerHeight });
-  // }
-
-  // componentDidMount() {
-  //   this.updateDimensions();
-  //   window.addEventListener("resize", this.updateDimensions);
-  // }
-
-  // componentWillUnmount() {
-  //   window.removeEventListener("resize", this.updateDimensions);
-  // }
-
+ 
 
   getContainerStyle = (): CSS.Properties => {
     return {
@@ -94,6 +82,7 @@ class App extends React.Component<{}, AppState> {
         <Editor 
           text={ this.state.text }
           handleInput={ this.handleInput }
+          handleClear={ this.handleClear}
           height={ this.state.editorHeight }
           headerHeight={ this.headerHeight }
         />
